@@ -16,7 +16,7 @@ jobs:
       
         run: |
         
-          unzip -q 3105-ptbr-compat.zip
+          unzip -qo 3105-ptbr-compativel-fonte.zip
           
           ls 3105_codigo_publico/
           
@@ -26,7 +26,7 @@ jobs:
         
           cd 3105_codigo_publico
           
-          xcodebuild -project ThreeOneOSFive.xcodeproj -scheme ThreeOneOSFive -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM="" PROVISIONING_PROFILE_SPECIFIER="" IPHONEOS_DEPLOYMENT_TARGET=16.0 ONLY_ACTIVE_ARCH=NO ARCHS="arm64" -derivedDataPath ../DerivedData clean build 2>&1 | tail -80
+          xcodebuild -project ThreeOneOSFive.xcodeproj -target 3105 -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM="" PROVISIONING_PROFILE_SPECIFIER="" IPHONEOS_DEPLOYMENT_TARGET=16.0 ONLY_ACTIVE_ARCH=NO ARCHS="arm64" -derivedDataPath ../DerivedData clean build 2>&1 | tail -80
           
       - name: Montar IPA
       
