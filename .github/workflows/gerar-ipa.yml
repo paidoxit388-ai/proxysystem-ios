@@ -1,6 +1,10 @@
 name: Gerar IPA 3105 pt-BR compativel
 
+
+
 on: workflow_dispatch
+
+
 
 jobs:
 
@@ -12,6 +16,8 @@ jobs:
     
       - uses: actions/checkout@v4
       
+
+
       - name: Descompactar fonte
       
         run: |
@@ -20,19 +26,25 @@ jobs:
           
           ls 3105_codigo_publico/
           
+
+
       - name: Compilar sem assinatura
       
         run: |
         
           cd 3105_codigo_publico
           
-          xcodebuild -project ThreeOneOSFive.xcodeproj -target 3105 -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM="" PROVISIONING_PROFILE_SPECIFIER="" IPHONEOS_DEPLOYMENT_TARGET=16.0 ONLY_ACTIVE_ARCH=NO ARCHS="arm64" -derivedDataPath ../DerivedData clean build 2>&1 | tail -80
+          xcodebuild -project ThreeOneOSFive.xcodeproj -target 3105 -configuration Release -sdk iphoneos CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM="" PROVISIONING_PROFILE_SPECIFIER="" IPHONEOS_DEPLOYMENT_TARGET=16.0 ONLY_ACTIVE_ARCH=NO ARCHS="arm64" SYMROOT=$(pwd)/../build clean build 2>&1 | tail -80
           
+
+
       - name: Montar IPA
       
         run: |
         
-          app=$(find DerivedData -path '*/Release-iphoneos/*.app' -type d | head -1)
+          app=$(find build -path '*/Release-iphoneos/*.app' -type d | head -1)
+          
+          echo "App encontrado: $app"
           
           mkdir -p Payload
           
@@ -42,6 +54,8 @@ jobs:
           
           ls -lh 3105-ptbr-compativel.ipa
           
+
+
       - uses: actions/upload-artifact@v4
       
         with:
@@ -49,6 +63,7 @@ jobs:
           name: 3105-ptbr-compativel-ipa
           
           path: 3105-ptbr-compativel.ipa
+
 
 
 
